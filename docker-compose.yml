@@ -9,7 +9,7 @@ services:
         ports:
             - '5432:5432'
         volumes:
-            - postgres13:/var/lib/postgresql/data
+            - postgres16:/var/lib/postgresql/data
     redis:
         image: redis:7.0.15-alpine
         ports:
@@ -17,17 +17,21 @@ services:
         volumes:
         - redis_data:/data  
     web:
-        ## TODO
-    test:
+        command: "./bin/rails server -b 0.0.0.0"
         build: .
-        command: bundle exec rspec
+        ports:
+        - "3000:3000"
+        stdin_open: true
+        tty: true
         volumes:
             - .:/rails
         depends_on:
             - db
-            - redis 
+            - redis
         environment:
-            - DATABASE_URL: postgresql://postgres:password@db:5432/myapp_test
-            - REDIS_URL: redis://redis:6379/0
+            - DATABASE_URL=postgresql://postgres:password@db:5432/myapp_development
+            - REDIS_URL=redis://redis:6379/0
+
 volumes:
-    postgres13:
+    postgres16:
+    redis_data:
