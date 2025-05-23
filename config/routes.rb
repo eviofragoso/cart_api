@@ -9,6 +9,8 @@ Rails.application.routes.draw do
     end
   end
 
+  delete "cart(/:product_id)", to: "carts#remove_item"
+
   get "up" => "rails/health#show", as: :rails_health_check
 
   root "rails/health#show"

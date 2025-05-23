@@ -1,10 +1,13 @@
+class NegativeQuantityError < StandardError; end
+
 class UpdateCartItemsService
-  def initialize(cart_id, payload)
-    @cart    = Cart.find(cart_id)
+  def initialize(cart, payload)
+    @cart    = cart
     @payload = payload
   end
 
   def call
+    validate_quantity
     cart_item = initialize_cart_item
     persist_cart_item(cart_item)
   
@@ -12,6 +15,10 @@ class UpdateCartItemsService
   end
 
   private
+
+  def validate_quantity
+    raise NegativeQuantityError if @payload[:quantity] <= 0
+  end
 
   def initialize_cart_item
     @cart.cart_items.where(product_id: @payload[:product_id]).first_or_initialize
