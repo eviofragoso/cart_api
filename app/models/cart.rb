@@ -15,4 +15,14 @@ class Cart < ApplicationRecord
 
     destroy
   end
+
+  def update_total_price
+    total_price = cart_items.sum { |cart_item| cart_item.quantity * cart_item.product.price }
+
+    update!(total_price: total_price)
+  end
+
+  def as_json(options = nil)
+    super({ include: :products }.merge(options || {}))
+  end
 end
