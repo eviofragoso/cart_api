@@ -19,10 +19,6 @@ class Cart < ApplicationRecord
   def update_total_price
     total_price = cart_items.reload.sum { |cart_item| cart_item.quantity * cart_item.product.price }
 
-    update!(total_price: total_price)
-  end
-
-  def as_json(options = nil)
-    super({ include: :products }.merge(options || {}))
+    update!(total_price: total_price, last_interaction_at: Time.zone.now)
   end
 end

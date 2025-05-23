@@ -20,4 +20,12 @@ RSpec.describe Product, type: :model do
       expect(product.errors[:price]).to include("must be greater than or equal to 0")
     end
   end
+
+  context 'when calculation price' do
+    it 'calculates total price based on its quantity and product price' do
+      product = create(:product, price: 12.0)
+      cart_item = create(:cart_item, quantity: 2, product: product)
+      expect(cart_item.total_price).to eq(product.price * cart_item.quantity)
+    end  
+  end
 end
