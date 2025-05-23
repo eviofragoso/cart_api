@@ -70,6 +70,8 @@ Rails.application.configure do
   config.action_controller.raise_on_missing_callback_actions = true
   config.hosts = [
     "example.com",     # Allow requests from example.com
-    /.*\.example\.com/ # Allow requests from subdomains like `www.example.com`
+    /.*\.example\.com/, # Allow requests from subdomains like `www.example.com`
+    "127.0.0.1:3000",
+    "localhost:3000"
   ]
 end

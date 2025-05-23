@@ -1,4 +1,5 @@
 class CartsController < ApplicationController
+  before_action :set_session_cart, only: [:create]
   before_action :set_cart
 
   def show; end
@@ -33,6 +34,13 @@ class CartsController < ApplicationController
     return if @cart
 
     @cart = Cart.find(session[:cart_id])
+  end
+
+  def set_session_cart
+    return if session[:cart_id]
+
+    cart = Cart.create(total_price: 0)
+    session[:cart_id] = cart.id
   end
   
 end
