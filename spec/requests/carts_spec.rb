@@ -71,7 +71,6 @@ RSpec.describe "/carts", type: :request do
     let!(:cart_item) { create(:cart_item, cart: cart, product: product, quantity: 1) }
 
     context 'when the product already is in the cart' do
-      # INFO: Added this, because the test is creating a cart to be used when the logic for the cart creation is implemented in a callback 
       
   
       subject do
